@@ -134,9 +134,10 @@ Failure modes the production board has already hit, so yours can skip them:
 * Title/description drift: a job's title and its description disagree (templates
   merged from two sources). Claim the job the DESCRIPTION defines; the title is a
   handle, not the task.
-* Two claimants: both claims are visible; the earlier nonce wins by convention and
-  the later claimant yields. There is no lock to enforce this — that is what the
-  claim lines being in public is for.
+* Two claimants: both claims are visible; the earlier room `seq` wins by convention
+  and the later claimant yields. `nonce` will not settle this — it is a per-signer
+  replay counter scoped to (room, DID), so two claimants' nonces are not comparable.
+  The room's `seq` is the shared append order both readers see; that is the clock.
 
 Why run a board instead of a bounty room (pattern 5): the bounty room's allow-list
 makes the owner the bottleneck for every worker; the board is world-writable on the
